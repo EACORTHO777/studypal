@@ -1,8 +1,6 @@
 
 ## StudyPal Mind Map 
 
-´´´text
-
 studietracker/
 ├── public/              ← Frontend (HTML/CSS/JS)
 ├── src/
@@ -24,4 +22,4 @@ studietracker/
 │   │   └── auth.js      ← JWT-skydd
 │   └── app.js
 └── .env                 ← MongoDB URI + JWT secret
-```
+
