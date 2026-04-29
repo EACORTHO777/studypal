@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sessions – StudyPal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">StudyPal</span>
+    <div class="nav-links">
+      <span id="user-name"></span>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="courses.html">Courses</a>
+      <button class="btn-logout" id="logout-btn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <h2>Study Sessions</h2>
+      <button class="btn-primary btn-sm" id="add-btn">+ Log session</button>
+    </div>
+
+    <div class="modal-overlay" id="modal" style="display:none">
+      <div class="modal">
+        <h3 id="modal-title">Log session</h3>
+        <form id="session-form">
+          <div class="form-group">
+            <label for="course-select">Course</label>
+            <select id="course-select" required>
+              <option value="">Select a course</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="session-date">Date</label>
+            <input type="date" id="session-date" required>
+          </div>
+          <div class="form-group">
+            <label for="session-duration">Duration (minutes)</label>
+            <input type="number" id="session-duration" placeholder="e.g. 90" min="1" required>
+          </div>
+          <div class="form-group">
+            <label for="session-comment">Comment (optional)</label>
+            <input type="text" id="session-comment" placeholder="What did you study?">
+          </div>
+          <p class="error-message" id="error-msg"></p>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <ul class="session-list" id="session-list">
+      <li class="empty-state">No sessions logged yet.</li>
+    </ul>
+  </main>
+
+  <script src="js/sessions.js"></script>
+</body>
+</html>
