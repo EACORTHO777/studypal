@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard – StudyPal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">StudyPal</span>
+    <div class="nav-links">
+      <span id="user-name"></span>
+      <a href="courses.html">Courses</a>
+      <a href="sessions.html">Sessions</a>
+      <button class="btn-logout" id="logout-btn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h2>Dashboard</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">This week</p>
+        <p class="stat-value" id="week-total">--</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">Active courses</p>
+        <p class="stat-value" id="course-count">--</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <h3>Recent sessions</h3>
+      <ul class="session-list" id="recent-sessions">
+        <li class="empty-state">No sessions logged yet.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h3>Study time per course</h3>
+      <ul class="course-list" id="course-summary">
+        <li class="empty-state">No data yet.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>
