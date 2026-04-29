@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses – StudyPal</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <span class="logo">StudyPal</span>
+    <div class="nav-links">
+      <span id="user-name"></span>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="sessions.html">Sessions</a>
+      <button class="btn-logout" id="logout-btn">Log out</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="page-header">
+      <h2>Courses</h2>
+      <button class="btn-primary btn-sm" id="add-btn">+ Add course</button>
+    </div>
+
+    <div class="modal-overlay" id="modal" style="display:none">
+      <div class="modal">
+        <h3 id="modal-title">Add course</h3>
+        <form id="course-form">
+          <div class="form-group">
+            <label for="course-name">Course name</label>
+            <input type="text" id="course-name" placeholder="e.g. Mathematics" required>
+          </div>
+          <div class="form-group">
+            <label for="course-code">Course code (optional)</label>
+            <input type="text" id="course-code" placeholder="e.g. MA101">
+          </div>
+          <p class="error-message" id="error-msg"></p>
+          <div class="modal-actions">
+            <button type="button" class="btn-secondary" id="cancel-btn">Cancel</button>
+            <button type="submit" class="btn-primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <ul class="course-list" id="course-list">
+      <li class="empty-state">No courses yet. Add your first course!</li>
+    </ul>
+  </main>
+
+  <script src="js/courses.js"></script>
+</body>
+</html>
