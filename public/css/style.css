@@ -550,3 +550,128 @@ body {
 .form-group select:focus {
   border-color: #1DA1F2;
 }
+
+/* ── Mobile header (hidden on desktop) ── */
+.mobile-header {
+  display: none;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 99;
+}
+
+.sidebar-overlay.visible {
+  display: block;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 20px;
+    background: linear-gradient(90deg, #1a94e0, #0d7fc9);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    width: 100%;
+  }
+
+  .hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: #fff;
+    border-radius: 2px;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+
+  .mobile-logo {
+    height: 32px;
+    width: auto;
+    filter: brightness(0) invert(1);
+  }
+
+  .app-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: -240px;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transition: left 0.25s ease;
+    min-height: 100%;
+    padding-top: 16px;
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .app-content {
+    padding: 24px 20px;
+    min-height: unset;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .page-top {
+    margin-bottom: 20px;
+  }
+
+  .page-title {
+    font-size: 1.6rem;
+  }
+
+  .list-item {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .item-actions {
+    margin-left: auto;
+  }
+
+  .modal {
+    max-width: calc(100vw - 32px);
+  }
+
+  /* Auth — hide blue panel, show just the form */
+  .auth-split {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .auth-panel {
+    display: none;
+  }
+
+  .auth-form-panel {
+    padding: 48px 28px;
+    min-height: 100vh;
+  }
+}
