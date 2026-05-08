@@ -1,0 +1,10 @@
+services:
+  studypal:
+    build:
+      dockerfile: Dockerfile.production
+    environment:
+      - NODE_ENV=production
+
+  mongodb:
+    volumes:
+      - ./.volumes/mongodb:/data/db
