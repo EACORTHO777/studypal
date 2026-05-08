@@ -1,0 +1,10 @@
+services:
+  studypal:
+    volumes:
+      - ./src:/usr/src/app/src
+    env_file:
+      - .env
+
+  mongodb:
+    volumes:
+      - ./.volumes/mongodb:/data/db

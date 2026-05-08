@@ -1,0 +1,16 @@
+services:
+  studypal:
+    container_name: studypal
+    build:
+      context: .
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/studypal
+      - PORT=3000
+    ports:
+      - "${DOCKER_PORT:-3000}:3000"
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: studypal-mongodb
+    image: mongo:6
