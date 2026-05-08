@@ -1,6 +1,6 @@
 'use strict'
 
-const CACHE_NAME = 'studypal-v1'
+const CACHE_NAME = 'studypal-v2'
 const STATIC_ASSETS = [
   '/login.html',
   '/register.html',
