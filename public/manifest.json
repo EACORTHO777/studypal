@@ -1,0 +1,23 @@
+{
+  "name": "StudyPal",
+  "short_name": "StudyPal",
+  "description": "Track your study sessions. Reach your goals.",
+  "start_url": "/login.html",
+  "display": "standalone",
+  "background_color": "#e8f5fd",
+  "theme_color": "#1a94e0",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
