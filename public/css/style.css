@@ -659,19 +659,40 @@ body {
     max-width: calc(100vw - 32px);
   }
 
-  /* Auth — hide blue panel, show just the form */
+  /* Auth — compact blue header on top, form below */
   .auth-split {
     grid-template-columns: 1fr;
     height: auto;
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
 
   .auth-panel {
-    display: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 28px 28px;
+    min-height: unset;
+  }
+
+  .auth-logo {
+    width: 56px;
+    height: auto;
+  }
+
+  .auth-tagline {
+    font-size: 0.95rem;
+    text-align: left;
   }
 
   .auth-form-panel {
-    padding: 48px 28px;
-    min-height: 100vh;
+    padding: 36px 28px 48px;
+    min-height: unset;
+    flex: 1;
+    align-items: flex-start;
+    padding-top: 36px;
   }
 }
