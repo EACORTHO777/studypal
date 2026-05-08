@@ -4,21 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard – StudyPal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <nav class="navbar">
-    <span class="logo">StudyPal</span>
-    <div class="nav-links">
-      <span id="user-name"></span>
-      <a href="courses.html">Courses</a>
-      <a href="sessions.html">Sessions</a>
+<body class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" alt="StudyPal" class="sidebar-logo-img">
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link active">Dashboard</a>
+      <a href="courses.html" class="sidebar-link">Courses</a>
+      <a href="sessions.html" class="sidebar-link">Sessions</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="user-name" class="sidebar-user"></span>
       <button class="btn-logout" id="logout-btn">Log out</button>
     </div>
-  </nav>
+  </aside>
 
-  <main class="container">
-    <h2>Dashboard</h2>
+  <main class="app-content">
+    <div class="page-top">
+      <div>
+        <h1 class="page-title" id="greeting">Hello!</h1>
+        <p class="page-subtitle">Here's your study overview</p>
+      </div>
+    </div>
 
     <div class="stats-grid">
       <div class="stat-card">
@@ -32,16 +44,22 @@
     </div>
 
     <section class="section">
-      <h3>Recent sessions</h3>
+      <div class="section-header">
+        <h3 class="section-title">Recent sessions</h3>
+        <a href="sessions.html" class="section-link">View all →</a>
+      </div>
       <ul class="session-list" id="recent-sessions">
-        <li class="empty-state">No sessions logged yet.</li>
+        <li class="empty-state">No sessions yet.<br><a href="sessions.html">Log your first session →</a></li>
       </ul>
     </section>
 
     <section class="section">
-      <h3>Study time per course</h3>
+      <div class="section-header">
+        <h3 class="section-title">Study time per course</h3>
+        <a href="courses.html" class="section-link">Manage courses →</a>
+      </div>
       <ul class="course-list" id="course-summary">
-        <li class="empty-state">No data yet.</li>
+        <li class="empty-state">No data yet.<br><a href="courses.html">Add a course to get started →</a></li>
       </ul>
     </section>
   </main>

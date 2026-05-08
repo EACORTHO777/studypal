@@ -4,22 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Courses – StudyPal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-  <nav class="navbar">
-    <span class="logo">StudyPal</span>
-    <div class="nav-links">
-      <span id="user-name"></span>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="sessions.html">Sessions</a>
+<body class="app-layout">
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <img src="logo.png" alt="StudyPal" class="sidebar-logo-img">
+    </div>
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">Dashboard</a>
+      <a href="courses.html" class="sidebar-link active">Courses</a>
+      <a href="sessions.html" class="sidebar-link">Sessions</a>
+    </nav>
+    <div class="sidebar-footer">
+      <span id="user-name" class="sidebar-user"></span>
       <button class="btn-logout" id="logout-btn">Log out</button>
     </div>
-  </nav>
+  </aside>
 
-  <main class="container">
-    <div class="page-header">
-      <h2>Courses</h2>
+  <main class="app-content">
+    <div class="page-top">
+      <h1 class="page-title">Courses</h1>
       <button class="btn-primary btn-sm" id="add-btn">+ Add course</button>
     </div>
 

@@ -42,7 +42,7 @@ const loadSessions = async () => {
   const list = document.getElementById('session-list')
 
   if (!sessions.length) {
-    list.innerHTML = '<li class="empty-state">No sessions logged yet.</li>'
+    list.innerHTML = '<li class="empty-state">No sessions logged yet.<br>Hit <strong>+ Log session</strong> to track your first study session.</li>'
     return
   }
 
@@ -50,7 +50,7 @@ const loadSessions = async () => {
     <li class="list-item">
       <div class="session-info">
         <strong>${s.courseId?.name || 'Unknown'}</strong>
-        <span class="session-meta">${new Date(s.date).toLocaleDateString()} · ${formatMinutes(s.duration)}</span>
+        <span class="session-meta">${new Date(s.date).toLocaleDateString('sv-SE')} · ${formatMinutes(s.duration)}</span>
         ${s.comment ? `<span class="session-comment">${s.comment}</span>` : ''}
       </div>
       <div class="item-actions">

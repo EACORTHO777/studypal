@@ -3,7 +3,12 @@
 const token = localStorage.getItem('token')
 if (!token) window.location.href = 'login.html'
 
-document.getElementById('user-name').textContent = localStorage.getItem('name') || ''
+const userName = localStorage.getItem('name') || ''
+document.getElementById('user-name').textContent = userName
+
+const hour = new Date().getHours()
+const timeGreeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening'
+document.getElementById('greeting').textContent = `${timeGreeting}, ${userName}!`
 
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('token')
@@ -28,8 +33,8 @@ const loadSummary = async () => {
 
   list.innerHTML = data.map(d => `
     <li class="list-item">
-      <span>${d.courseName}</span>
-      <span class="stat-value-sm">${formatMinutes(d.totalMinutes)}</span>
+      <strong>${d.courseName}</strong>
+      <span class="time-value">${formatMinutes(d.totalMinutes)}</span>
     </li>
   `).join('')
 
@@ -41,7 +46,10 @@ const loadRecentSessions = async () => {
   const data = await res.json()
   const list = document.getElementById('recent-sessions')
 
-  if (!data.length) return
+  if (!data.length) {
+    document.getElementById('week-total').textContent = '0m'
+    return
+  }
 
   const recent = data.slice(-5).reverse()
   const weekAgo = new Date()
@@ -54,9 +62,11 @@ const loadRecentSessions = async () => {
 
   list.innerHTML = recent.map(s => `
     <li class="list-item">
-      <span>${s.courseId?.name || 'Unknown'}</span>
-      <span>${new Date(s.date).toLocaleDateString()}</span>
-      <span class="stat-value-sm">${formatMinutes(s.duration)}</span>
+      <div class="session-info">
+        <strong>${s.courseId?.name || 'Unknown'}</strong>
+        <span class="session-meta">${new Date(s.date).toLocaleDateString('sv-SE')} · ${formatMinutes(s.duration)}</span>
+        ${s.comment ? `<span class="session-comment">${s.comment}</span>` : ''}
+      </div>
     </li>
   `).join('')
 }

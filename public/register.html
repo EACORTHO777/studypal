@@ -4,35 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Register – StudyPal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div class="auth-container">
-    <h1 class="logo">StudyPal</h1>
-    <div class="auth-card">
-      <h2>Create account</h2>
-      <p class="auth-subtitle">Start tracking your study time</p>
+  <div class="auth-split">
+    <div class="auth-panel">
+      <img src="logo.png" alt="StudyPal" class="auth-logo">
+      <p class="auth-tagline">Track your study sessions.<br>Reach your goals.</p>
+    </div>
+    <div class="auth-form-panel">
+      <div class="auth-form-wrap">
+        <h1 class="auth-heading">Create account</h1>
+        <p class="auth-subtitle">Start tracking your study time</p>
 
-      <form id="register-form">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" placeholder="Your name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" placeholder="your@email.com" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" id="password" placeholder="Min. 8 characters" required minlength="8">
-        </div>
+        <form id="register-form">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="your@email.com" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Min. 8 characters" required minlength="8">
+          </div>
 
-        <p class="error-message" id="error-msg"></p>
+          <p class="error-message" id="error-msg"></p>
 
-        <button type="submit" class="btn-primary">Create account</button>
-      </form>
+          <button type="submit" class="btn-primary">Create account</button>
+        </form>
 
-      <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+        <p class="auth-switch">Already have an account? <a href="login.html">Log in</a></p>
+      </div>
     </div>
   </div>
 

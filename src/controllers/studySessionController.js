@@ -1,5 +1,6 @@
 'use strict'
 
+const mongoose = require('mongoose')
 const StudySession = require('../models/StudySession')
 
 const getSessions = async (req, res) => {
@@ -32,7 +33,7 @@ const deleteSession = async (req, res) => {
 
 const getSummary = async (req, res) => {
   const sessions = await StudySession.aggregate([
-    { $match: { userId: req.userId } },
+    { $match: { userId: new mongoose.Types.ObjectId(req.userId) } },
     { $group: { _id: '$courseId', totalMinutes: { $sum: '$duration' } } },
     { $lookup: { from: 'courses', localField: '_id', foreignField: '_id', as: 'course' } },
     { $unwind: '$course' },

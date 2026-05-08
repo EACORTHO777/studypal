@@ -40,7 +40,7 @@ const loadCourses = async () => {
   const list = document.getElementById('course-list')
 
   if (!courses.length) {
-    list.innerHTML = '<li class="empty-state">No courses yet. Add your first course!</li>'
+    list.innerHTML = '<li class="empty-state">No courses yet.<br>Hit <strong>+ Add course</strong> to get started.</li>'
     return
   }
 
