@@ -31,7 +31,7 @@ deploy:
     - ssh-keyscan "$PRODUCTION_HOST" >> ~/.ssh/known_hosts
   script:
     - rsync -az --delete --exclude='.git' --exclude='node_modules' --exclude='.volumes' --exclude='.env' . ubuntu@$PRODUCTION_HOST:~/studypal/
-    - ssh ubuntu@$PRODUCTION_HOST "cd ~/studypal && JWT_SECRET='${JWT_SECRET}' docker compose -f docker-compose.yaml -f docker-compose.production.yaml up -d --build --remove-orphans && docker system prune -f"
+    - ssh ubuntu@$PRODUCTION_HOST "cd ~/studypal && docker compose -f docker-compose.yaml -f docker-compose.production.yaml down --remove-orphans 2>/dev/null || true && JWT_SECRET='${JWT_SECRET}' docker compose -f docker-compose.yaml -f docker-compose.production.yaml up -d --build --remove-orphans && docker system prune -f"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
   needs:
