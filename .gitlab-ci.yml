@@ -32,7 +32,7 @@ deploy:
   script:
     - ssh ubuntu@$PRODUCTION_HOST "set -e &&
         if [ ! -d \$HOME/studypal ]; then
-          git clone https://deploy-token:${DEPLOY_TOKEN}@gitlab.lnu.se/1dv613/student/ac223up/workspace/studietracker.git \$HOME/studypal;
+          git clone https://gitlab+deploy-token-364:${DEPLOY_TOKEN}@gitlab.lnu.se/1dv613/student/ac223up/workspace/studietracker.git \$HOME/studypal;
         fi &&
         cd \$HOME/studypal &&
         git fetch origin &&
