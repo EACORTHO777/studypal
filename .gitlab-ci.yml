@@ -18,6 +18,22 @@ lint:
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
+test:
+  stage: test
+  image: node:lts-alpine
+  cache:
+    key:
+      files:
+        - package-lock.json
+    paths:
+      - .npm/
+  before_script:
+    - npm ci --cache .npm --prefer-offline
+  script:
+    - npm test
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+
 deploy:
   stage: deploy
   image: alpine:latest
@@ -36,3 +52,4 @@ deploy:
     - if: $CI_COMMIT_BRANCH == "main"
   needs:
     - lint
+    - test
