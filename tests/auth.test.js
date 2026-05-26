@@ -1,12 +1,24 @@
 'use strict'
 
-const request = require('supertest')
-
-process.env.JWT_SECRET = 'test-secret'
-
 jest.mock('../src/models/User', () => ({
   findOne: jest.fn(),
   create: jest.fn()
+}))
+
+jest.mock('../src/models/Course', () => ({
+  find: jest.fn(),
+  create: jest.fn(),
+  findById: jest.fn(),
+  findByIdAndUpdate: jest.fn(),
+  findByIdAndDelete: jest.fn()
+}))
+
+jest.mock('../src/models/StudySession', () => ({
+  find: jest.fn(),
+  create: jest.fn(),
+  findById: jest.fn(),
+  findByIdAndUpdate: jest.fn(),
+  findByIdAndDelete: jest.fn()
 }))
 
 jest.mock('bcryptjs', () => ({
@@ -14,14 +26,22 @@ jest.mock('bcryptjs', () => ({
   compare: jest.fn()
 }))
 
+jest.mock('jsonwebtoken', () => ({
+  sign: jest.fn(() => 'fake-token'),
+  verify: jest.fn(() => ({ id: 'abc' }))
+}))
+
+const request = require('supertest')
+const app = require('../src/app')
 const User = require('../src/models/User')
 const bcrypt = require('bcryptjs')
-const app = require('../src/app')
+
+process.env.JWT_SECRET = 'test-secret'
 
 afterEach(() => jest.clearAllMocks())
 
 describe('POST /api/auth/register', () => {
-  it('registers a new user and returns 201 with a token', async () => {
+  it('returns 201 with a token when user is created', async () => {
     User.findOne.mockResolvedValue(null)
     bcrypt.hash.mockResolvedValue('hashedpw')
     User.create.mockResolvedValue({ _id: 'abc', name: 'Alex' })
@@ -48,7 +68,7 @@ describe('POST /api/auth/register', () => {
 })
 
 describe('POST /api/auth/login', () => {
-  it('returns a token when credentials are correct', async () => {
+  it('returns 200 with a token when credentials are correct', async () => {
     User.findOne.mockResolvedValue({ _id: 'abc', name: 'Alex', password: 'hashedpw' })
     bcrypt.compare.mockResolvedValue(true)
 
