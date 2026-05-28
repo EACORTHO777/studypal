@@ -13,8 +13,15 @@ const register = async (req, res) => {
     return res.status(400).json({ message: 'Email already in use' })
   }
   const hashed = await bcrypt.hash(password, 10)
-  const user = await User.create({ name, email, password: hashed })
-  res.status(201).json({ token: generateToken(user._id), name: user.name })
+  try {
+    const user = await User.create({ name, email, password: hashed })
+    res.status(201).json({ token: generateToken(user._id), name: user.name })
+  } catch (err) {
+    if (err.code === 11000) {
+      return res.status(400).json({ message: 'Email already in use' })
+    }
+    throw err
+  }
 }
 
 const login = async (req, res) => {
