@@ -85,8 +85,25 @@ const openEdit = (id, courseId, date, duration, comment) => {
   modal.style.display = 'flex'
 }
 
+const askConfirm = () => new Promise((resolve) => {
+  const overlay = document.getElementById('confirm-modal')
+  overlay.style.display = 'flex'
+  const ok = document.getElementById('confirm-ok')
+  const cancel = document.getElementById('confirm-cancel')
+  const cleanup = (result) => {
+    overlay.style.display = 'none'
+    ok.removeEventListener('click', onOk)
+    cancel.removeEventListener('click', onCancel)
+    resolve(result)
+  }
+  const onOk = () => cleanup(true)
+  const onCancel = () => cleanup(false)
+  ok.addEventListener('click', onOk)
+  cancel.addEventListener('click', onCancel)
+})
+
 const deleteSession = async (id) => {
-  if (!confirm('Delete this session?')) return
+  if (!await askConfirm()) return
   await fetch(`/api/sessions/${id}`, { method: 'DELETE', headers })
   loadSessions()
 }

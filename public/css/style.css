@@ -454,6 +454,22 @@ body {
   background: #f5f5f5;
 }
 
+.btn-danger {
+  padding: 8px 16px;
+  background: #e0322b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-danger:hover {
+  background: #c0281e;
+}
+
 .session-info {
   display: flex;
   flex-direction: column;

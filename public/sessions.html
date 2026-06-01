@@ -72,6 +72,17 @@
       </div>
     </div>
 
+    <div class="modal-overlay" id="confirm-modal" style="display:none">
+      <div class="modal">
+        <h3>Delete session?</h3>
+        <p style="margin:8px 0 16px;color:#555;font-size:0.9rem">This cannot be undone.</p>
+        <div class="modal-actions">
+          <button type="button" class="btn-secondary" id="confirm-cancel">Cancel</button>
+          <button type="button" class="btn-danger" id="confirm-ok">Delete</button>
+        </div>
+      </div>
+    </div>
+
     <ul class="session-list" id="session-list">
       <li class="empty-state">No sessions logged yet.</li>
     </ul>
