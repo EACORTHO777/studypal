@@ -3,9 +3,12 @@
 const js = require('@eslint/js')
 
 module.exports = [
+  /** Ignore generated/data directories that contain no source to lint */
   {
     ignores: ['.volumes/**', 'node_modules/**']
   },
+
+  /** Base rules applied to every JS file in the project */
   js.configs.recommended,
   {
     languageOptions: {
@@ -29,6 +32,8 @@ module.exports = [
       'no-console': 'off'
     }
   },
+
+  /** Browser globals for front-end scripts served from public/js/ */
   {
     files: ['public/js/**/*.js'],
     languageOptions: {
@@ -42,6 +47,8 @@ module.exports = [
       }
     }
   },
+
+  /** Service worker globals — self and caches are not available in normal browser scope */
   {
     files: ['public/sw.js'],
     languageOptions: {
@@ -52,6 +59,8 @@ module.exports = [
       }
     }
   },
+
+  /** Jest globals for test files */
   {
     files: ['tests/**/*.js'],
     languageOptions: {

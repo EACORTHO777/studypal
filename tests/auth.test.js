@@ -1,24 +1,19 @@
 'use strict'
 
+/**
+ * Integration tests for the authentication endpoints.
+ *
+ * All external dependencies (Mongoose models, bcryptjs, jsonwebtoken) are
+ * mocked so the tests run without a live database or real crypto operations.
+ *
+ * Covered routes:
+ *   POST /api/auth/register
+ *   POST /api/auth/login
+ */
+
 jest.mock('../src/models/User', () => ({
   findOne: jest.fn(),
   create: jest.fn()
-}))
-
-jest.mock('../src/models/Course', () => ({
-  find: jest.fn(),
-  create: jest.fn(),
-  findById: jest.fn(),
-  findByIdAndUpdate: jest.fn(),
-  findByIdAndDelete: jest.fn()
-}))
-
-jest.mock('../src/models/StudySession', () => ({
-  find: jest.fn(),
-  create: jest.fn(),
-  findById: jest.fn(),
-  findByIdAndUpdate: jest.fn(),
-  findByIdAndDelete: jest.fn()
 }))
 
 jest.mock('bcryptjs', () => ({

@@ -5,6 +5,7 @@ const path = require('path')
 
 const app = express()
 
+/** Parse JSON and URL-encoded request bodies, and serve the frontend from public/ */
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../public')))
@@ -12,6 +13,7 @@ app.use(express.static(path.join(__dirname, '../public')))
 /** Redirect bare root to the login page */
 app.get('/', (req, res) => res.redirect('/login.html'))
 
+/** API routes */
 app.use('/api/auth', require('./routes/authRoutes'))
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/courses', require('./routes/courseRoutes'))
