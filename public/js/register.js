@@ -3,6 +3,13 @@
 const form = document.getElementById('register-form')
 const errorMsg = document.getElementById('error-msg')
 
+/**
+ * Handles the registration form submission.
+ * POSTs the new account details to the API, stores the returned JWT and user
+ * name in localStorage on success, then redirects to the dashboard.
+ *
+ * @param {SubmitEvent} e
+ */
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   errorMsg.textContent = ''

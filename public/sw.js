@@ -1,6 +1,9 @@
+/// <reference lib="webworker" />
 'use strict'
 
 const CACHE_NAME = 'studypal-v3'
+
+/** Static assets to pre-cache during service worker installation */
 const STATIC_ASSETS = [
   '/login.html',
   '/register.html',
@@ -15,6 +18,12 @@ const STATIC_ASSETS = [
   '/manifest.json'
 ]
 
+/**
+ * Installs the service worker by pre-caching all static assets.
+ * Calls skipWaiting() so the new worker activates immediately.
+ *
+ * @param {ExtendableEvent} event
+ */
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(STATIC_ASSETS))
@@ -22,6 +31,12 @@ self.addEventListener('install', (event) => {
   self.skipWaiting()
 })
 
+/**
+ * Activates the service worker and removes any outdated caches from previous
+ * versions, then claims all open clients immediately.
+ *
+ * @param {ExtendableEvent} event
+ */
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
@@ -31,6 +46,13 @@ self.addEventListener('activate', (event) => {
   self.clients.claim()
 })
 
+/**
+ * Intercepts fetch requests. API calls are always passed through to the network.
+ * All other requests are served from the cache when available, falling back to
+ * the network.
+ *
+ * @param {FetchEvent} event
+ */
 self.addEventListener('fetch', (event) => {
   if (event.request.url.includes('/api/')) return
 

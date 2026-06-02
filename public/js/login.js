@@ -3,6 +3,13 @@
 const form = document.getElementById('login-form')
 const errorMsg = document.getElementById('error-msg')
 
+/**
+ * Handles the login form submission.
+ * POSTs credentials to the API, stores the returned JWT and user name in
+ * localStorage on success, then redirects to the dashboard.
+ *
+ * @param {SubmitEvent} e
+ */
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   errorMsg.textContent = ''

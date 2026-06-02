@@ -4,6 +4,8 @@ const token = localStorage.getItem('token')
 if (!token) window.location.href = 'login.html'
 
 document.getElementById('user-name').textContent = localStorage.getItem('name') || ''
+
+/** Clears auth state and redirects to the login page */
 document.getElementById('logout-btn').addEventListener('click', () => {
   localStorage.removeItem('token')
   localStorage.removeItem('name')
@@ -15,12 +17,14 @@ const headers = {
   'Content-Type': 'application/json'
 }
 
+/** ID of the course currently being edited, or null when adding a new one */
 let editingId = null
 
 const modal = document.getElementById('modal')
 const form = document.getElementById('course-form')
 const errorMsg = document.getElementById('error-msg')
 
+/** Opens the modal in "add" mode with blank fields */
 document.getElementById('add-btn').addEventListener('click', () => {
   editingId = null
   document.getElementById('modal-title').textContent = 'Add course'
@@ -30,10 +34,18 @@ document.getElementById('add-btn').addEventListener('click', () => {
   modal.style.display = 'flex'
 })
 
+/** Closes the course modal without saving */
 document.getElementById('cancel-btn').addEventListener('click', () => {
   modal.style.display = 'none'
 })
 
+/**
+ * Fetches all courses for the current user and renders them in the #course-list.
+ * Shows an empty-state message when there are no courses.
+ *
+ * @async
+ * @returns {Promise<void>}
+ */
 const loadCourses = async () => {
   const res = await fetch('/api/courses', { headers })
   const courses = await res.json()
@@ -58,6 +70,13 @@ const loadCourses = async () => {
   `).join('')
 }
 
+/**
+ * Opens the modal pre-filled with the given course data for editing.
+ *
+ * @param {string} id - MongoDB ObjectId of the course.
+ * @param {string} name - Current course name.
+ * @param {string} [code] - Current course code (empty string if not set).
+ */
 const openEdit = (id, name, code) => {
   editingId = id
   document.getElementById('modal-title').textContent = 'Edit course'
@@ -67,6 +86,12 @@ const openEdit = (id, name, code) => {
   modal.style.display = 'flex'
 }
 
+/**
+ * Shows the confirmation modal and waits for the user to respond.
+ * Cleans up its own event listeners after settling.
+ *
+ * @returns {Promise<boolean>} Resolves true if confirmed, false if cancelled.
+ */
 const askConfirm = () => new Promise((resolve) => {
   const overlay = document.getElementById('confirm-modal')
   overlay.style.display = 'flex'
@@ -84,12 +109,25 @@ const askConfirm = () => new Promise((resolve) => {
   cancel.addEventListener('click', onCancel)
 })
 
+/**
+ * Asks for confirmation, then deletes the specified course and refreshes the list.
+ *
+ * @async
+ * @param {string} id - MongoDB ObjectId of the course to delete.
+ * @returns {Promise<void>}
+ */
 const deleteCourse = async (id) => {
   if (!await askConfirm()) return
   await fetch(`/api/courses/${id}`, { method: 'DELETE', headers })
   loadCourses()
 }
 
+/**
+ * Handles the course form submission for both create and edit operations.
+ * Sends POST (new) or PUT (edit) depending on whether editingId is set.
+ *
+ * @param {SubmitEvent} e
+ */
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   errorMsg.textContent = ''

@@ -2,6 +2,16 @@
 
 const jwt = require('jsonwebtoken')
 
+/**
+ * Express middleware that validates a Bearer JWT from the Authorization header.
+ * Attaches the decoded user ID to `req.userId` and calls `next()` on success.
+ * Responds 401 if the token is missing or invalid.
+ *
+ * @param {import('express').Request & { userId?: string }} req - Express request, extended with userId once verified.
+ * @param {import('express').Response} res - Express response.
+ * @param {import('express').NextFunction} next - Express next function.
+ * @returns {void}
+ */
 const protect = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1]
   if (!token) {
