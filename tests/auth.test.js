@@ -16,6 +16,23 @@ jest.mock('../src/models/User', () => ({
   create: jest.fn()
 }))
 
+/** Mocked to prevent Mongoose from buffering real DB calls when app loads these routes */
+jest.mock('../src/models/Course', () => ({
+  find: jest.fn(),
+  create: jest.fn(),
+  findOneAndUpdate: jest.fn(),
+  findOneAndDelete: jest.fn()
+}))
+
+/** Mocked to prevent Mongoose from buffering real DB calls when app loads these routes */
+jest.mock('../src/models/StudySession', () => ({
+  find: jest.fn(),
+  create: jest.fn(),
+  findOneAndUpdate: jest.fn(),
+  findOneAndDelete: jest.fn(),
+  aggregate: jest.fn()
+}))
+
 jest.mock('bcryptjs', () => ({
   hash: jest.fn(),
   compare: jest.fn()
