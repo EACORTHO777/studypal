@@ -2,11 +2,11 @@
   "name": "studypal",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
     "docker:dev": "docker compose -f docker-compose.yaml -f docker-compose.development.yaml up --build",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint .",
     "test": "jest --forceExit"
   },
   "jest": {

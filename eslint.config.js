@@ -3,10 +3,14 @@
 const js = require('@eslint/js')
 
 module.exports = [
+  {
+    ignores: ['.volumes/**', 'node_modules/**']
+  },
   js.configs.recommended,
   {
     languageOptions: {
       ecmaVersion: 'latest',
+      sourceType: 'commonjs',
       globals: {
         require: 'readonly',
         module: 'readonly',
@@ -23,6 +27,29 @@ module.exports = [
       semi: ['error', 'never'],
       'no-unused-vars': 'warn',
       'no-console': 'off'
+    }
+  },
+  {
+    files: ['public/js/**/*.js'],
+    languageOptions: {
+      globals: {
+        document: 'readonly',
+        window: 'readonly',
+        localStorage: 'readonly',
+        fetch: 'readonly',
+        navigator: 'readonly',
+        location: 'readonly'
+      }
+    }
+  },
+  {
+    files: ['public/sw.js'],
+    languageOptions: {
+      globals: {
+        self: 'readonly',
+        caches: 'readonly',
+        fetch: 'readonly'
+      }
     }
   },
   {
