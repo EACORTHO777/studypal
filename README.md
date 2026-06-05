@@ -4,6 +4,8 @@ A web application for tracking study sessions across courses. Log time spent stu
 
 **Live demo:** https://studypal-dpft.onrender.com/
 
+**GitHub:** https://github.com/EACORTHO777/studypal
+
 ---
 
 ## Features
