@@ -6,6 +6,8 @@ A web application for tracking study sessions across courses. Log time spent stu
 
 **GitHub:** https://github.com/EACORTHO777/studypal
 
+**Requirements:** [REQUIREMENTS.md](REQUIREMENTS.md)
+
 ---
 
 ## Features
