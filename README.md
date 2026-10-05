@@ -3,6 +3,7 @@
 A web application for tracking study sessions across courses. Log time spent studying, manage your courses, and get a weekly overview of your progress.
 
 **Live demo:** https://studypal-dpft.onrender.com/
+> Hosted on Render's free tier. The server sleeps when inactive, so the first load may take up to a minute.
 
 **GitHub:** https://github.com/EACORTHO777/studypal
 
