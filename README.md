@@ -1,5 +1,7 @@
 # StudyPal
 
+[![CI](https://github.com/EACORTHO777/studypal/actions/workflows/ci.yml/badge.svg)](https://github.com/EACORTHO777/studypal/actions/workflows/ci.yml)
+
 A web application for tracking study sessions across courses. Log time spent studying, manage your courses, and get a weekly overview of your progress.
 
 **Live demo:** https://studypal-dpft.onrender.com/
