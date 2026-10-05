@@ -13,13 +13,23 @@ const request = require('supertest')
 const mongoose = require('mongoose')
 const app = require('../src/app')
 
+/**
+ * Mongoose declares readyState as a non-configurable getter, so it cannot be
+ * spied on. An own property on the connection shadows it instead.
+ *
+ * @param {number} state - The readyState to report (1 = connected).
+ */
+const setReadyState = (state) => {
+  Object.defineProperty(mongoose.connection, 'readyState', { value: state, configurable: true })
+}
+
 describe('GET /health', () => {
   afterEach(() => {
-    jest.restoreAllMocks()
+    delete mongoose.connection.readyState
   })
 
   it('returns 200 when the database is connected', async () => {
-    jest.spyOn(mongoose.connection, 'readyState', 'get').mockReturnValue(1)
+    setReadyState(1)
 
     const res = await request(app).get('/health')
 
@@ -28,7 +38,7 @@ describe('GET /health', () => {
   })
 
   it('returns 503 when the database is not connected', async () => {
-    jest.spyOn(mongoose.connection, 'readyState', 'get').mockReturnValue(0)
+    setReadyState(0)
 
     const res = await request(app).get('/health')
 
