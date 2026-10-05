@@ -33,7 +33,7 @@ A web application for tracking study sessions across courses. Log time spent stu
 | Frontend | Vanilla HTML/CSS/JS |
 | Testing | Jest + Supertest |
 | Linting | ESLint |
-| CI/CD | GitLab CI |
+| CI/CD | GitHub Actions + GitLab CI |
 | Deployment | Render / Docker |
 
 ---
@@ -103,7 +103,9 @@ npm run lint
 ## Project structure
 
 ```
-studietracker/
+studypal/
+├── .github/workflows/       ← GitHub Actions CI
+├── docs/                    ← Mind map and other docs
 ├── public/                  ← Frontend (HTML, CSS, JS, PWA)
 │   ├── css/
 │   ├── js/
@@ -160,6 +162,7 @@ All endpoints under `/api/courses`, `/api/sessions` and `/api/users` require a `
 - Mobile responsive UI with hamburger sidebar
 - JWT-protected REST API
 - Automated tests for auth endpoints (Jest + Supertest)
+- GitHub Actions workflow running lint and tests on every push
 - GitLab CI/CD pipeline with lint, test and deploy stages
 - Dockerised for both development and production
 
