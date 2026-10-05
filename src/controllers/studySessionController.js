@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose')
 const StudySession = require('../models/StudySession')
+const Course = require('../models/Course')
 
 /**
  * GET /api/sessions
@@ -22,6 +23,7 @@ const getSessions = async (req, res) => {
 /**
  * POST /api/sessions
  * Logs a new study session for the authenticated user.
+ * Responds 400 if the course does not exist or belongs to another user.
  *
  * @async
  * @param {import('express').Request & { userId: string }} req - Express request, extended with userId from auth middleware.
@@ -34,6 +36,11 @@ const getSessions = async (req, res) => {
  */
 const createSession = async (req, res) => {
   const { courseId, date, duration, comment } = req.body
+  const ownsCourse = mongoose.isValidObjectId(courseId) &&
+    await Course.exists({ _id: courseId, userId: req.userId })
+  if (courseId && !ownsCourse) {
+    return res.status(400).json({ message: 'Course not found' })
+  }
   const session = await StudySession.create({ courseId, date, duration, comment, userId: req.userId })
   res.status(201).json(session)
 }
@@ -57,7 +64,7 @@ const updateSession = async (req, res) => {
   const session = await StudySession.findOneAndUpdate(
     { _id: req.params.id, userId: req.userId },
     { date, duration, comment },
-    { new: true }
+    { new: true, runValidators: true }
   )
   if (!session) return res.status(404).json({ message: 'Session not found' })
   res.json(session)

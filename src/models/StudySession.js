@@ -17,7 +17,7 @@ const studySessionSchema = new mongoose.Schema({
   courseId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Course',
-    required: true
+    required: [true, 'Course is required']
   },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,12 +26,12 @@ const studySessionSchema = new mongoose.Schema({
   },
   date: {
     type: Date,
-    required: true
+    required: [true, 'Date is required']
   },
   duration: {
     type: Number,
-    required: true,
-    min: 1
+    required: [true, 'Duration is required'],
+    min: [1, 'Duration must be at least 1 minute']
   },
   comment: {
     type: String,

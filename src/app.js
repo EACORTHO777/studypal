@@ -30,8 +30,10 @@ app.use('/api/courses', require('./routes/courseRoutes'))
 app.use('/api/sessions', require('./routes/studySessionRoutes'))
 
 /**
- * Global error handler — catches unhandled errors from route handlers
- * and returns a generic 500 so stack traces never reach the client.
+ * Global error handler — catches unhandled errors from route handlers.
+ * Invalid input (Mongoose validation or cast errors) gets a 400 with a
+ * readable message, a malformed ID in the URL gets a 404, and anything
+ * else a generic 500 so stack traces never reach the client.
  *
  * @param {Error} err - The error thrown by a route handler.
  * @param {import('express').Request} req - Express request.
@@ -39,6 +41,16 @@ app.use('/api/sessions', require('./routes/studySessionRoutes'))
  * @param {import('express').NextFunction} _next - Required fourth argument for Express to recognise this as an error handler.
  */
 app.use((err, req, res, _next) => {
+  if (err instanceof mongoose.Error.ValidationError) {
+    const message = Object.values(err.errors)
+      .map((e) => e instanceof mongoose.Error.CastError ? `Invalid ${e.path}` : e.message)
+      .join(', ')
+    return res.status(400).json({ message })
+  }
+  if (err instanceof mongoose.Error.CastError) {
+    if (err.path === '_id') return res.status(404).json({ message: 'Not found' })
+    return res.status(400).json({ message: `Invalid ${err.path}` })
+  }
   console.error(err.message)
   res.status(500).json({ message: 'Server error' })
 })

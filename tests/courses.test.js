@@ -28,8 +28,12 @@ jest.mock('jsonwebtoken', () => ({
 
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 const app = require('../src/app')
 const Course = require('../src/models/Course')
+
+/** The real model, used to produce the validation errors Mongoose would throw */
+const RealCourse = jest.requireActual('../src/models/Course')
 
 process.env.JWT_SECRET = 'test-secret'
 
@@ -88,6 +92,32 @@ describe('POST /api/courses', () => {
     expect(res.body.name).toBe('Calculus I')
     expect(Course.create).toHaveBeenCalledWith({ name: 'Calculus I', code: 'MA101', userId: USER_ID })
   })
+
+  it('returns 400 with a readable message when the name is missing', async () => {
+    Course.create.mockRejectedValue(new RealCourse({ userId: USER_ID }).validateSync())
+
+    const res = await request(app)
+      .post('/api/courses')
+      .set('Authorization', AUTH)
+      .send({ code: 'MA101' })
+
+    expect(res.status).toBe(400)
+    expect(res.body.message).toBe('Course name is required')
+  })
+
+  it('returns 500 without details when something unexpected fails', async () => {
+    jest.spyOn(console, 'error').mockImplementation(() => {})
+    Course.create.mockRejectedValue(new Error('connection reset'))
+
+    const res = await request(app)
+      .post('/api/courses')
+      .set('Authorization', AUTH)
+      .send({ name: 'Calculus I' })
+
+    expect(res.status).toBe(500)
+    expect(res.body.message).toBe('Server error')
+    console.error.mockRestore()
+  })
 })
 
 describe('PUT /api/courses/:id', () => {
@@ -104,7 +134,7 @@ describe('PUT /api/courses/:id', () => {
     expect(Course.findOneAndUpdate).toHaveBeenCalledWith(
       { _id: COURSE_ID, userId: USER_ID },
       { name: 'Calculus II', code: 'MA102' },
-      { new: true }
+      { new: true, runValidators: true }
     )
   })
 
@@ -118,6 +148,18 @@ describe('PUT /api/courses/:id', () => {
 
     expect(res.status).toBe(404)
     expect(res.body.message).toBe('Course not found')
+  })
+
+  it('returns 404 when the ID in the URL is malformed', async () => {
+    Course.findOneAndUpdate.mockRejectedValue(new mongoose.Error.CastError('ObjectId', 'not-an-id', '_id'))
+
+    const res = await request(app)
+      .put('/api/courses/not-an-id')
+      .set('Authorization', AUTH)
+      .send({ name: 'Calculus II' })
+
+    expect(res.status).toBe(404)
+    expect(res.body.message).toBe('Not found')
   })
 })
 

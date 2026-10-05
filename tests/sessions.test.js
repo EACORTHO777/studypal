@@ -22,6 +22,10 @@ jest.mock('../src/models/StudySession', () => ({
   aggregate: jest.fn()
 }))
 
+jest.mock('../src/models/Course', () => ({
+  exists: jest.fn()
+}))
+
 jest.mock('jsonwebtoken', () => ({
   sign: jest.fn(() => 'fake-token'),
   verify: jest.fn()
@@ -29,8 +33,13 @@ jest.mock('jsonwebtoken', () => ({
 
 const request = require('supertest')
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 const app = require('../src/app')
 const StudySession = require('../src/models/StudySession')
+const Course = require('../src/models/Course')
+
+/** The real model, used to produce the validation errors Mongoose would throw */
+const RealStudySession = jest.requireActual('../src/models/StudySession')
 
 process.env.JWT_SECRET = 'test-secret'
 
@@ -55,6 +64,7 @@ const mockFindChain = (sessions) => {
 
 beforeEach(() => {
   jwt.verify.mockReturnValue({ id: USER_ID })
+  Course.exists.mockResolvedValue({ _id: COURSE_ID })
 })
 
 afterEach(() => jest.clearAllMocks())
@@ -109,6 +119,50 @@ describe('POST /api/sessions', () => {
     expect(res.status).toBe(201)
     expect(res.body.duration).toBe(45)
     expect(StudySession.create).toHaveBeenCalledWith({ ...body, userId: USER_ID })
+    expect(Course.exists).toHaveBeenCalledWith({ _id: COURSE_ID, userId: USER_ID })
+  })
+
+  it('returns 400 when the course belongs to another user', async () => {
+    Course.exists.mockResolvedValue(null)
+
+    const res = await request(app)
+      .post('/api/sessions')
+      .set('Authorization', AUTH)
+      .send({ courseId: COURSE_ID, date: '2026-10-01', duration: 45 })
+
+    expect(res.status).toBe(400)
+    expect(res.body.message).toBe('Course not found')
+    expect(StudySession.create).not.toHaveBeenCalled()
+  })
+
+  it('returns 400 when the course ID is malformed', async () => {
+    const res = await request(app)
+      .post('/api/sessions')
+      .set('Authorization', AUTH)
+      .send({ courseId: 'not-an-id', date: '2026-10-01', duration: 45 })
+
+    expect(res.status).toBe(400)
+    expect(res.body.message).toBe('Course not found')
+    expect(Course.exists).not.toHaveBeenCalled()
+  })
+
+  it('returns 400 with a readable message when the duration is 0', async () => {
+    const body = { courseId: COURSE_ID, date: '2026-10-01', duration: 0 }
+    StudySession.create.mockRejectedValue(new RealStudySession({ ...body, userId: USER_ID }).validateSync())
+
+    const res = await request(app).post('/api/sessions').set('Authorization', AUTH).send(body)
+
+    expect(res.status).toBe(400)
+    expect(res.body.message).toBe('Duration must be at least 1 minute')
+  })
+
+  it('lists every problem when several fields are missing', async () => {
+    StudySession.create.mockRejectedValue(new RealStudySession({ courseId: COURSE_ID, userId: USER_ID }).validateSync())
+
+    const res = await request(app).post('/api/sessions').set('Authorization', AUTH).send({ courseId: COURSE_ID })
+
+    expect(res.status).toBe(400)
+    expect(res.body.message.split(', ').sort()).toEqual(['Date is required', 'Duration is required'])
   })
 })
 
@@ -126,7 +180,7 @@ describe('PUT /api/sessions/:id', () => {
     expect(StudySession.findOneAndUpdate).toHaveBeenCalledWith(
       { _id: SESSION_ID, userId: USER_ID },
       { date: '2026-10-02', duration: 60, comment: '' },
-      { new: true }
+      { new: true, runValidators: true }
     )
   })
 
@@ -140,6 +194,18 @@ describe('PUT /api/sessions/:id', () => {
 
     expect(res.status).toBe(404)
     expect(res.body.message).toBe('Session not found')
+  })
+
+  it('returns 400 when the duration is not a number', async () => {
+    StudySession.findOneAndUpdate.mockRejectedValue(new mongoose.Error.CastError('Number', 'abc', 'duration'))
+
+    const res = await request(app)
+      .put(`/api/sessions/${SESSION_ID}`)
+      .set('Authorization', AUTH)
+      .send({ duration: 'abc' })
+
+    expect(res.status).toBe(400)
+    expect(res.body.message).toBe('Invalid duration')
   })
 })
 
