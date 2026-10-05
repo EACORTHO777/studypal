@@ -2,6 +2,7 @@
 
 const express = require('express')
 const path = require('path')
+const mongoose = require('mongoose')
 
 const app = express()
 
@@ -9,6 +10,15 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, '../public')))
+
+/**
+ * Health check for uptime monitors. Returns 200 when the database is
+ * connected and 503 otherwise, so a paused database shows up as downtime.
+ */
+app.get('/health', (req, res) => {
+  const dbConnected = mongoose.connection.readyState === 1
+  res.status(dbConnected ? 200 : 503).json({ status: dbConnected ? 'ok' : 'db-unavailable' })
+})
 
 /** Redirect bare root to the login page */
 app.get('/', (req, res) => res.redirect('/login.html'))
