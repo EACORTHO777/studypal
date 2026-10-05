@@ -13,7 +13,9 @@ const StudySession = require('../models/StudySession')
  * @returns {Promise<void>}
  */
 const getSessions = async (req, res) => {
-  const sessions = await StudySession.find({ userId: req.userId }).populate('courseId', 'name code')
+  const sessions = await StudySession.find({ userId: req.userId })
+    .sort({ date: -1 })
+    .populate('courseId', 'name code')
   res.json(sessions)
 }
 
