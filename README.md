@@ -9,6 +9,8 @@ A web application for tracking study sessions across courses. Log time spent stu
 
 **Requirements:** [REQUIREMENTS.md](REQUIREMENTS.md)
 
+![StudyPal study sessions view](docs/dashboard.png)
+
 ---
 
 ## Features
