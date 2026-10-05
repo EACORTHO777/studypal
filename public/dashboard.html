@@ -56,6 +56,17 @@
 
     <section class="section">
       <div class="section-header">
+        <h3 class="section-title">Last 14 days</h3>
+        <span class="section-meta" id="daily-total"></span>
+      </div>
+      <div class="chart-card">
+        <div class="day-chart" id="daily-chart" role="list" aria-label="Study time per day over the last 14 days"></div>
+        <div class="chart-tooltip" id="chart-tooltip" hidden></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-header">
         <h3 class="section-title">Recent sessions</h3>
         <a href="sessions.html" class="section-link">View all →</a>
       </div>
@@ -69,7 +80,7 @@
         <h3 class="section-title">Study time per course</h3>
         <a href="courses.html" class="section-link">Manage courses →</a>
       </div>
-      <ul class="course-list" id="course-summary">
+      <ul class="course-list course-bars" id="course-summary">
         <li class="empty-state">No data yet.<br><a href="courses.html">Add a course to get started →</a></li>
       </ul>
     </section>

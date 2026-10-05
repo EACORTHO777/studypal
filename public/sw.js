@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 'use strict'
 
-const CACHE_NAME = 'studypal-v3'
+const CACHE_NAME = 'studypal-v4'
 
 /** Static assets to pre-cache during service worker installation */
 const STATIC_ASSETS = [

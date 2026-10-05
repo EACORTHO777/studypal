@@ -410,6 +410,149 @@ body {
   flex-shrink: 0;
 }
 
+/* Dashboard charts */
+.section-meta {
+  font-size: 0.82rem;
+  color: #999;
+}
+
+.chart-card {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 40px 16px 12px;
+}
+
+.day-chart {
+  display: grid;
+  grid-template-columns: repeat(14, 1fr);
+  gap: 4px;
+  height: 180px;
+}
+
+.day-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  border-radius: 6px;
+  outline: none;
+}
+
+.day-col:hover .day-plot,
+.day-col:focus-visible .day-plot {
+  background: #f5faff;
+}
+
+.day-col:focus-visible {
+  box-shadow: 0 0 0 2px #1a94e0;
+}
+
+.day-plot {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  border-bottom: 1px solid #e6edf3;
+  border-radius: 6px 6px 0 0;
+}
+
+.day-bar {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 24px;
+  min-height: 2px;
+  background: #1a94e0;
+  border-radius: 4px 4px 0 0;
+}
+
+.day-peak {
+  flex-shrink: 0;
+  margin-bottom: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #14171a;
+  white-space: nowrap;
+}
+
+.day-label {
+  margin-top: 6px;
+  font-size: 0.72rem;
+  color: #99a;
+  font-variant-numeric: tabular-nums;
+}
+
+.day-col.is-today .day-label {
+  color: #14171a;
+  font-weight: 700;
+}
+
+.chart-tooltip {
+  position: absolute;
+  top: 10px;
+  transform: translateX(-50%);
+  background: #14171a;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.chart-tooltip[hidden] {
+  display: none;
+}
+
+.bar-row {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f0f4f8;
+  font-size: 0.95rem;
+}
+
+.bar-row:last-child {
+  border-bottom: none;
+}
+
+.bar-row-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.bar-row-head strong {
+  font-weight: 600;
+  color: #14171a;
+  overflow-wrap: anywhere;
+}
+
+.bar-row-value {
+  color: #999;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.bar-track {
+  height: 8px;
+  margin-top: 8px;
+  background: #e8f5fd;
+  border-radius: 0 4px 4px 0;
+}
+
+.bar-fill {
+  height: 100%;
+  min-width: 2px;
+  background: #1a94e0;
+  border-radius: 0 4px 4px 0;
+}
+
 .course-code {
   display: inline-block;
   font-size: 0.75rem;
@@ -666,6 +809,19 @@ body {
 
   .page-title {
     font-size: 1.6rem;
+  }
+
+  .day-chart {
+    height: 140px;
+    gap: 2px;
+  }
+
+  .chart-card {
+    padding: 40px 10px 10px;
+  }
+
+  .day-label {
+    font-size: 0.65rem;
   }
 
   .list-item {
